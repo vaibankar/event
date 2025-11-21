@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-api-deployment
+  labels:
+    app: event-api
+spec:
+  # Running 2 instances for resilience
+  replicas: 2
+  selector:
+    matchLabels:
+      app: event-api
+  template:
+    metadata:
+      labels:
+        app: event-api
+    spec:
+      containers:
+      - name: api-container
+        # Replace 'your-username/event-api:v1.0.0' with your exact tagged image from Docker Hub
+        image: vaibhavbankar/event-api:v1.0.0 
+        ports:
+        - containerPort: 3001
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        # Environment variables for the API (critical for configuration)
+        env:
+        # The frontend uses 'http://event-api-service/api', so this is good.
+        - name: API_SERVICE_URL 
+          value: "http://event-api-service" 
+        # Example for a real DB (requires a 'mongo-service' running in your cluster)
+        # - name: MONGODB_URI
+        #   value: "mongodb://mongo-service:27017/eventdb"
