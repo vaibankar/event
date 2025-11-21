@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-client-service
+  labels:
+    app: event-client
+spec:
+  selector:
+    app: event-client
+  ports:
+    - protocol: TCP
+      port: 80          # External access port (standard HTTP)
+      targetPort: 80    # Container port (NGINX)
+  type: LoadBalancer    # Exposes the service externally using a public IP
