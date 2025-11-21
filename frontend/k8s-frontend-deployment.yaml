@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-client-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: event-client
+  template:
+    metadata:
+      labels:
+        app: event-client
+    spec:
+      containers:
+      - name: client-container
+        image: your-registry/event-client:latest # <-- **UPDATE THIS IMAGE**
+        ports:
+        - containerPort: 80 # NGINX default port

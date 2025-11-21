@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: event-api
+  template:
+    metadata:
+      labels:
+        app: event-api
+    spec:
+      containers:
+      - name: api-container
+        image: your-registry/event-api:latest  # <-- **UPDATE THIS IMAGE**
+        ports:
+        - containerPort: 3001
+        # Add environment variables here for MONGODB_URI if needed
