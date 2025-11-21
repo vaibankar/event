@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-client-deployment
+  labels:
+    app: event-client
+spec:
+  # Running 3 instances for better public accessibility
+  replicas: 3
+  selector:
+    matchLabels:
+      app: event-client
+  template:
+    metadata:
+      labels:
+        app: event-client
+    spec:
+      containers:
+      - name: client-container
+        # Replace 'your-username/event-client:v1.0.0' with your exact tagged image
+        image: vaibhavbankar/event-client:v1.0.0 
+        ports:
+        - containerPort: 80 # NGINX default port
+        # Resource limits help prevent containers from consuming excessive resources
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "200m"
